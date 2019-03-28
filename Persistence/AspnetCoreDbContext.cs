@@ -1,3 +1,4 @@
+using aspnetcore.models;
 using Microsoft.EntityFrameworkCore;
 
 namespace aspnetcore.Persistence
@@ -6,8 +7,8 @@ namespace aspnetcore.Persistence
     {
         public AspnetCoreDbContext(DbContextOptions<AspnetCoreDbContext> options)
         :base(options)
-        {
-            
+        {            
         }
+        public DbSet<Make> Makes { get; set; }
     }
 }

@@ -1,0 +1,6 @@
+sudo docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=MyComplexPassword!234' -p 1433:1433  -d microsoft/mssql-server-linux
+-v /user/my/db:/var/opt/mssql
+
+
+ dotnet ef migrations add InitialModel
+ dotnet ef migrations remove

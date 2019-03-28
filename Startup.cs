@@ -23,7 +23,7 @@ namespace aspnetcore
         {
             services.AddDbContext<AspnetCoreDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+         
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
