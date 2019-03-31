@@ -4,3 +4,7 @@ sudo docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=MyComplexPassword!234' -p 143
 
  dotnet ef migrations add InitialModel
  dotnet ef migrations remove
+
+ dotnet add package AutoMapper
+ dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection --version 1.2.0
+ dotnet restore
