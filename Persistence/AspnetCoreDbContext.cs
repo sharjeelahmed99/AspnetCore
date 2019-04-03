@@ -1,4 +1,5 @@
 using aspnetcore.models;
+using AspnetCore.models;
 using Microsoft.EntityFrameworkCore;
 
 namespace aspnetcore.Persistence
@@ -10,5 +11,6 @@ namespace aspnetcore.Persistence
         {            
         }
         public DbSet<Make> Makes { get; set; }
+         public DbSet<Feature> Features { get; set; }
     }
 }

@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using aspnetcore.Persistence;
 
 namespace aspnetcore.Migrations
 {
     [DbContext(typeof(AspnetCoreDbContext))]
-    partial class AspnetCoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190403133633_FeatureSeed")]
+    partial class FeatureSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
