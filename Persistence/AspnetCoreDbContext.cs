@@ -6,11 +6,15 @@ namespace aspnetcore.Persistence
 {
     public class AspnetCoreDbContext:DbContext
     {
+          public DbSet<Make> Makes { get; set; }
+          public DbSet<Feature> Features { get; set; }
+            public DbSet<Vehical> Vehicals { get; set; }
         public AspnetCoreDbContext(DbContextOptions<AspnetCoreDbContext> options)
         :base(options)
         {            
         }
-        public DbSet<Make> Makes { get; set; }
-         public DbSet<Feature> Features { get; set; }
+      protected override void OnModelCreating(ModelBuilder modelBuilder){
+          modelBuilder.Entity<VehicalFeature>().HasKey(vf => new {vf.FeatureId,vf.VehicalId});
+      }
     }
 }
