@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using aspnetcore.Controllers.Resources;
 using aspnetcore.models;
 using aspnetcore.Persistence;
-using AspnetCore.Controllers.Resources;
 using AspnetCore.models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
