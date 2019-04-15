@@ -1,0 +1,24 @@
+{
+    "gitlens.advanced.messages": {
+        "suppressShowKeyBindingsNotice": true
+    },
+    "workbench.colorTheme": "Default Light+",
+    "window.zoomLevel": 0,
+    "editor.formatOnSave": true,
+    "[javascript]": {
+        "editor.formatOnSave": true
+    },
+    "prettier.singleQuote": true,
+    "prettier.printWidth": 140,
+    "prettier.tabWidth": 4,
+    "jshint.config": ".jshintrc",
+    "workbench.colorCustomizations": {
+        "editorWarning.foreground": "#f00"
+    },
+    "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
+    "javascript.format.insertSpaceAfterKeywordsInControlFlowStatements": true,
+    "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+    "javascript.format.insertSpaceAfterSemicolonInForStatements": true,
+    "git.ignoreLimitWarning": true,
+    "files.autoSave": "off"
+}

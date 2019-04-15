@@ -4,7 +4,8 @@ namespace aspnetcore.Controllers.Resources
 {
     public class Contact 
     {
-     public string Name { get; set; }
+        [Required]
+        public string Name { get; set; }
         
       
      
