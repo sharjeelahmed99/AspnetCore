@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using aspnetcore.Controllers.Resources;
 using aspnetcore.models;
@@ -33,7 +34,11 @@ namespace aspnetcore.Controllers
             this.context.Vehicals.Add(vehical);
             await this.context.SaveChangesAsync();
 
-            var result = mapper.Map<Vehical, SaveVehicalResource>(vehical);
+            vehical = await this.context.Vehicals
+                    .Include(i => i.Features).ThenInclude(vf => vf.Feature)
+                    .Include(i => i.Model).ThenInclude(m => m.Make)
+                    .SingleOrDefaultAsync(v => v.Id == vehical.Id);
+            var result = mapper.Map<Vehical, VehicalResource>(vehical);
             return Ok(result);
             //1004484480
         }
@@ -53,6 +58,7 @@ namespace aspnetcore.Controllers
             }
             mapper.Map<SaveVehicalResource, Vehical>(vehicalResource, vehical);
             vehical.LastUpdated = DateTime.Now;
+
 
             await this.context.SaveChangesAsync();
 
@@ -88,7 +94,7 @@ namespace aspnetcore.Controllers
             }
 
             var vehical = await this.context.Vehicals
-         .Include(i => i.Features).ThenInclude(vf => vf.Feature)
+            .Include(i => i.Features).ThenInclude(vf => vf.Feature)
             .Include(i => i.Model).ThenInclude(m => m.Make)
             .SingleOrDefaultAsync(v => v.Id == id);
             if (vehical == null)
