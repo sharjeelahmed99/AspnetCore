@@ -2,6 +2,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using aspnetcore.Controllers.Resources;
+using aspnetcore.Interfaces;
+using aspnetcore.Interfaces.Repositories;
 using aspnetcore.models;
 using aspnetcore.Persistence;
 using AutoMapper;
@@ -13,13 +15,15 @@ namespace aspnetcore.Controllers
     [Route("/api/vehical")]
     public class VehicalController : Controller
     {
+        private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
-        private readonly AspnetCoreDbContext context;
-        public VehicalController(AspnetCoreDbContext context, IMapper mapper)
-        {
-            this.context = context;
-            this.mapper = mapper;
+        private readonly IVehicalRepository vehicalRepository;
 
+        public VehicalController(IUnitOfWork unitOfWork, IMapper mapper, IVehicalRepository vehicalRepository)
+        {
+            this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
+            this.vehicalRepository = vehicalRepository;
         }
         [HttpPost]
         public async Task<IActionResult> CreateVehical([FromBody] SaveVehicalResource vehicalResource)
@@ -31,16 +35,13 @@ namespace aspnetcore.Controllers
             }
             var vehical = mapper.Map<SaveVehicalResource, Vehical>(vehicalResource);
             vehical.LastUpdated = DateTime.Now;
-            this.context.Vehicals.Add(vehical);
-            await this.context.SaveChangesAsync();
+            vehicalRepository.Add(vehical);
+            await unitOfWork.CompleteAsync();
 
-            vehical = await this.context.Vehicals
-                    .Include(i => i.Features).ThenInclude(vf => vf.Feature)
-                    .Include(i => i.Model).ThenInclude(m => m.Make)
-                    .SingleOrDefaultAsync(v => v.Id == vehical.Id);
+            vehical = await vehicalRepository.GetVehical(vehical.Id);
             var result = mapper.Map<Vehical, VehicalResource>(vehical);
             return Ok(result);
-            //1004484480
+
         }
 
         [HttpPut("{id}")]
@@ -51,7 +52,7 @@ namespace aspnetcore.Controllers
                 return BadRequest(ModelState);
             }
 
-            var vehical = await this.context.Vehicals.FindAsync(id);
+            var vehical = await vehicalRepository.GetVehicalWithFeature(id);
             if (vehical == null)
             {
                 return NotFound();
@@ -60,11 +61,11 @@ namespace aspnetcore.Controllers
             vehical.LastUpdated = DateTime.Now;
 
 
-            await this.context.SaveChangesAsync();
+            await unitOfWork.CompleteAsync();
 
-            var result = mapper.Map<Vehical, SaveVehicalResource>(vehical);
+            vehical = await vehicalRepository.GetVehical(vehical.Id);
+            var result = mapper.Map<Vehical, VehicalResource>(vehical);
             return Ok(result);
-
         }
 
         [HttpDelete("{id}")]
@@ -75,13 +76,13 @@ namespace aspnetcore.Controllers
                 return BadRequest(ModelState);
             }
 
-            var vehical = await this.context.Vehicals.FindAsync(id);
+            var vehical = await vehicalRepository.GetVehical(id, false);
             if (vehical == null)
             {
                 return NotFound();
             }
-            this.context.Remove(vehical);
-            await this.context.SaveChangesAsync();
+            vehicalRepository.Remove(vehical);
+            await unitOfWork.CompleteAsync();
             return Ok(id);
 
         }
@@ -93,10 +94,7 @@ namespace aspnetcore.Controllers
                 return BadRequest(ModelState);
             }
 
-            var vehical = await this.context.Vehicals
-            .Include(i => i.Features).ThenInclude(vf => vf.Feature)
-            .Include(i => i.Model).ThenInclude(m => m.Make)
-            .SingleOrDefaultAsync(v => v.Id == id);
+            var vehical = await vehicalRepository.GetVehical(id);
             if (vehical == null)
             {
                 return NotFound();
