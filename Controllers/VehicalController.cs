@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using aspnetcore.Controllers.Resources;
@@ -103,6 +104,12 @@ namespace aspnetcore.Controllers
             var vResource = mapper.Map<Vehical, VehicalResource>(vehical);
             return Ok(vResource);
 
+        }
+        [HttpGet]
+        public async Task<IEnumerable<VehicalResource>> GetVehicals()
+        {
+            var vehicals = await vehicalRepository.GetVehicles();
+            return mapper.Map<IEnumerable<Vehical>, IEnumerable<VehicalResource>>(vehicals);
         }
     }
 }

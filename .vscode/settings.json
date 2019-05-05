@@ -19,6 +19,5 @@
     "javascript.format.insertSpaceAfterKeywordsInControlFlowStatements": true,
     "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
     "javascript.format.insertSpaceAfterSemicolonInForStatements": true,
-    "git.ignoreLimitWarning": true,
-    "files.autoSave": "off"
+    "git.ignoreLimitWarning": true
 }
