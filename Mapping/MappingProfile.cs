@@ -1,6 +1,7 @@
 using System.Linq;
 using aspnetcore.Controllers.Resources;
 using aspnetcore.models;
+
 using AspnetCore.models;
 using AutoMapper;
 
@@ -25,6 +26,7 @@ namespace aspnetcore.Mapping
 
 
             //Resouces to domian 
+            CreateMap<FilterResource, Filter>();
             CreateMap<SaveVehicalResource, Vehical>()
              .ForMember(i => i.Id, opt => opt.Ignore())
             .ForMember(i => i.ContactEmail, opt => opt.MapFrom(i => i.Contact.Email))

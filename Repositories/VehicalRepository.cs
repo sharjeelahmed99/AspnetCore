@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using aspnetcore.Interfaces.Repositories;
 using aspnetcore.models;
@@ -43,13 +44,19 @@ namespace aspnetcore.Repositories
                       .SingleOrDefaultAsync(v => v.Id == id);
 
         }
-        public async Task<IEnumerable<Vehical>> GetVehicles()
+        public async Task<IEnumerable<Vehical>> GetVehicles(Filter filter)
         {
 
-            return await this.context.Vehicals
-                      .Include(i => i.Features).ThenInclude(vf => vf.Feature)
-                      .Include(i => i.Model).ThenInclude(m => m.Make)
-                     .ToListAsync();
+            var query = this.context.Vehicals
+                       .Include(i => i.Features).ThenInclude(vf => vf.Feature)
+                       .Include(i => i.Model).ThenInclude(m => m.Make).AsQueryable();
+
+            if (filter.MakeId.HasValue)
+            {
+                query = query.Where(v => v.Model.MakeId == filter.MakeId.Value);
+            }
+
+            return await query.ToListAsync();
 
         }
     }

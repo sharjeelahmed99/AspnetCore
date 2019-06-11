@@ -106,8 +106,9 @@ namespace aspnetcore.Controllers
 
         }
         [HttpGet]
-        public async Task<IEnumerable<VehicalResource>> GetVehicals()
+        public async Task<IEnumerable<VehicalResource>> GetVehicals(FilterResource filter)
         {
+            mapper.Map<FilterResource, Filter>(filter);
             var vehicals = await vehicalRepository.GetVehicles();
             return mapper.Map<IEnumerable<Vehical>, IEnumerable<VehicalResource>>(vehicals);
         }
