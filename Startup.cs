@@ -27,6 +27,7 @@ namespace aspnetcore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IVehicalRepository, VehicalRepository>();
+            services.AddScoped<IMakeRepository, MakeRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper();
             services.AddDbContext<AspnetCoreDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
