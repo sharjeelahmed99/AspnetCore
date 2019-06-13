@@ -5,6 +5,8 @@ using aspnetcore.models;
 using aspnetcore.Persistence;
 using AspnetCore.models;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,11 +22,12 @@ namespace AspnetCore.Controllers
             this.context = context;
 
         }
-         [HttpGet("/api/features")]
+        [HttpGet("/api/features")]
+        [Authorize]
         public async Task<IEnumerable<FeatureResource>> GetFeatures()
         {
-           var features =  await context.Features.ToListAsync();
-           return mapper.Map<List<Feature>,List<FeatureResource>>(features);
+            var features = await context.Features.ToListAsync();
+            return mapper.Map<List<Feature>, List<FeatureResource>>(features);
         }
 
     }

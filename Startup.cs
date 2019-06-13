@@ -11,6 +11,7 @@ using AutoMapper;
 using aspnetcore.Repositories;
 using aspnetcore.Interfaces.Repositories;
 using aspnetcore.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace aspnetcore
 {
@@ -31,6 +32,16 @@ namespace aspnetcore
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper();
             services.AddDbContext<AspnetCoreDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
+            services.AddAuthentication(options =>
+      {
+          options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+          options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+      }).AddJwtBearer(options =>
+      {
+          options.Authority = "https://aspnetcore.auth0.com/";
+          options.Audience = "https://api.vega.com";
+      });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the Angular files will be served from this directory
@@ -38,6 +49,8 @@ namespace aspnetcore
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +71,13 @@ namespace aspnetcore
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+            // var options = new JwtBearerOptions
+            // {
+            //     Audience = "https://api.vega.com",
+            //     Authority = "https://aspnetcore.auth0.com"
+            // };
+            // app.UseJwtBearerAuthentication(options);
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
