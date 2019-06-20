@@ -8,6 +8,7 @@ using aspnetcore.Interfaces.Repositories;
 using aspnetcore.models;
 using aspnetcore.Persistence;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,6 +28,7 @@ namespace aspnetcore.Controllers
             this.vehicalRepository = vehicalRepository;
         }
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateVehical([FromBody] SaveVehicalResource vehicalResource)
         {
 
@@ -46,6 +48,7 @@ namespace aspnetcore.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateVehical(int id, [FromBody] SaveVehicalResource vehicalResource)
         {
             if (!ModelState.IsValid)
@@ -70,6 +73,7 @@ namespace aspnetcore.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteVehical(int id)
         {
             if (!ModelState.IsValid)
@@ -88,6 +92,7 @@ namespace aspnetcore.Controllers
 
         }
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetVehical(int id)
         {
             if (!ModelState.IsValid)
@@ -106,6 +111,7 @@ namespace aspnetcore.Controllers
 
         }
         [HttpGet]
+        [Authorize]
         public async Task<IEnumerable<VehicalResource>> GetVehicals(FilterResource filter)
         {
             var mfilter = mapper.Map<FilterResource, Filter>(filter);

@@ -5,6 +5,7 @@ using aspnetcore.Interfaces.Repositories;
 using aspnetcore.models;
 using aspnetcore.Persistence;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +26,7 @@ namespace aspnetcore.Controllers
 
         }
         [HttpGet]
+        [Authorize]
         public async Task<IEnumerable<MakeResource>> GetAll()
         {
             var makes = await makeRepository.GetAll();
@@ -32,6 +34,7 @@ namespace aspnetcore.Controllers
         }
 
         [HttpGet("models")]
+        [Authorize]
         public async Task<IEnumerable<ModelResource>> GetModels()
         {
             var models = await makeRepository.GetModels();
