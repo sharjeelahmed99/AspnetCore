@@ -12,6 +12,7 @@ using aspnetcore.Repositories;
 using aspnetcore.Interfaces.Repositories;
 using aspnetcore.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using aspnetCore.Common.Policies;
 
 namespace aspnetcore
 {
@@ -41,6 +42,10 @@ namespace aspnetcore
           options.Authority = "https://aspnetcore.auth0.com/";
           options.Audience = "https://api.vega.com";
       });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Policies.RequireAdminRole, policy => policy.RequireClaim("https://api.vega.com", "Admin"));
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 

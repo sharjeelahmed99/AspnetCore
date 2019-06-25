@@ -7,6 +7,7 @@ using aspnetcore.Interfaces;
 using aspnetcore.Interfaces.Repositories;
 using aspnetcore.models;
 using aspnetcore.Persistence;
+using aspnetCore.Common.Policies;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -73,7 +74,7 @@ namespace aspnetcore.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
+        [Authorize(Policies.RequireAdminRole)]
         public async Task<IActionResult> DeleteVehical(int id)
         {
             if (!ModelState.IsValid)
