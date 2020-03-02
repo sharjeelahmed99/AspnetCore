@@ -4,9 +4,9 @@
     },
     "workbench.colorTheme": "Default Light+",
     "window.zoomLevel": 0,
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": false,
     "[javascript]": {
-        "editor.formatOnSave": true
+        "editor.formatOnSave": false
     },
     "prettier.singleQuote": true,
     "prettier.printWidth": 140,
